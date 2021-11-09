@@ -1,0 +1,54 @@
+install package 
+composer require santigarcor/laratrust
+php artisan vendor:publish --tag="laratrust"
+
+php artisan laratrust:setup
+php artisan migrate
+
+di app\http\kernel.php bagian array routemiddleware tambah :
+'role' => \Laratrust\Middleware\LaratrustRole::class,
+'permission' => \Laratrust\Middleware\LaratrustPermission::class,
+'ability' => \Laratrust\Middleware\LaratrustAbility::class,
+
+buat seeder
+php artisan make:seeder UsersSeeder
+
+di UsersSeeder.php
+use App\Models\Role;
+use App\Models\User;
+
+// membuat role admin
+        $adminRole = new Role;
+        $adminRole->name = "admin";
+        $adminRole->display_name = "Admin Larapus";
+        $adminRole->save();
+
+        // membuat role member
+        $memberRole = new Role;
+        $memberRole->name = "member";
+        $memberRole->display_name = "Member Larapus";
+        $memberRole->save();
+
+        // membuat sample admin
+        $admin = new User;
+        $admin->name = "Admin Larapus";
+        $admin->email = "admin@gmail.com";
+        $admin->password = bcrypt("rahasia");
+        $admin->save();
+        $admin->attachRole($adminRole);
+        // membuat sample member
+        $member = new User;
+        $member->name = "Member Larapus";
+        $member->email = "member@gmail.com";
+        $member->password = bcrypt("rahasia");
+        $member->save();
+        $member->attachRole($memberRole);
+
+di DatabaseSeeder.php
+$this->call(UsersSeeder::class);
+
+tinggal php artisan migrate:fresh
+terus php artisan db:seed
+
+prefix = awalan route
+middleware = utk login dulu
