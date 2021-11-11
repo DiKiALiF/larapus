@@ -1,4 +1,4 @@
-https://github.com/ColorlibHQ/AdminLTE/releases
+khttps://github.com/ColorlibHQ/AdminLTE/releases
 https://getbootstrap.com/docs/5.1/getting-started/download/
 https://bootswatch.com/
 https://fontawesome.com/
